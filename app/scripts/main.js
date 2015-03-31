@@ -32,11 +32,16 @@ function illustrateArray(data,svg){
 
 		// UPDATE
 		text
+			.transition()
+			.delay(200)
+			.attr('opacity',0)
+			.transition()
 			.text(function(d,i){return d})
+			.attr('opacity',1)
 
 		parens
 			.transition()
-			.duration(1000)
+			.duration(200)
 			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
 
 
@@ -45,26 +50,34 @@ function illustrateArray(data,svg){
 			.text(function(d,i){return d})
 			.attr('class','avatar')
 			.attr("fill",function(a){return color(0)})
-			.attr("transform",function(d,i){return "translate("+(i*50)+",50)"})
+			.attr("transform",function(d,i){return "translate("+((i*40)+15)+",50)"})
+			.attr('opacity',0)
+			.transition()
+			.attr('opacity',1)
 
 		var newCommas = commas.enter().append('text')
 			.text(function(d,i){return ",";})
 			.attr('class','comma')
 			.attr("fill",function(a){return color(1)})
-			.attr("transform",function(d,i){return "translate("+((i*50)+15)+",50)"})
+			.attr("transform",function(d,i){return "translate("+((i*40)+30)+",50)"})
 
 		commas
 			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
 
+		parens
+			.enter().append('g')
+			.attr('class','parens')
+			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
 
+		parens.append('text')
+			.text(function(d,i){return d})
+			.attr("fill",function(a){return color(2)})
+
+		//EXIT
+		text.exit().remove();
+		commas.exit().remove();
 	
-	}
-
-
-
-
-
-	
+	}	
 
 	update(data)
 
@@ -84,3 +97,4 @@ var a = illustrateArray(data,svg);
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
 setTimeout(function(){a.update(['a','b','c','d','e','f'])},1500);
+setTimeout(function(){a.update(['g','h','i'])},3000);
