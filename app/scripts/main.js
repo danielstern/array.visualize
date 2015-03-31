@@ -50,13 +50,21 @@ function illustrateArray(data,svg){
 		var elements = container.selectAll('g.element')
 			.data(data,function(d,i){return i});
 
-		elements.selectAll('text').data(data,function(d,i){return i});
+		var parens = container.selectAll('g.parens')
+			.data(['[',']'])
+
+		// elements.selectAll('text').data(data,function(d,i){return i});
 
 			
 		// UPDATE
-		elements
-			.selectAll('text')
-			.text(function(d,i){return d})
+		// elements
+		// 	.selectAll('text')
+		// 	.text(function(d,i){return d})
+
+		parens
+			.transition()
+			.duration(1000)
+			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
 
 
 		// debugger;
@@ -65,11 +73,26 @@ function illustrateArray(data,svg){
 			.enter().append('g')
 			.attr('class','element')
 			.attr("transform",function(d,i){return "translate("+(i*40+15)+",50)"})
-			.append('text')
+
+		avatars = elements.append('text')
 			.text(function(d,i){return d})
 			.attr('class','avatar')
 			.attr("fill",function(a){return color(0)})
 
+		commas = elements.append('text')
+			.text(function(d,i){return ','})
+			.attr("fill",function(a){return color(1)})	
+			.attr("x",function(a){return 20})	
+			.attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
+
+		parens
+			.enter().append('g')
+			.attr('class','parens')
+			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
+
+		parens.append('text')
+			.text(function(d,i){return d})
+			.attr("fill",function(a){return color(2)})
 		
 
 		// elements.exit().remove()
@@ -99,10 +122,7 @@ function illustrateArray(data,svg){
 		// 	.text(function(d,i){return d})
 		// 	.attr("fill",function(a){return color(0)})
 
-		// parens
-		// 	.transition()
-		// 	.duration(1000)
-		// 	.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
+	
 	}
 
 
