@@ -23,6 +23,9 @@ function illustrateArray(data,svg){
 		var text = container.selectAll('text.avatar')
 			.data(data);
 
+		var commas = container.selectAll('text.comma')
+			.data(data);
+
 		var parens = container.selectAll('g.parens')
 			.data(['[',']'])
 
@@ -42,7 +45,16 @@ function illustrateArray(data,svg){
 			.text(function(d,i){return d})
 			.attr('class','avatar')
 			.attr("fill",function(a){return color(0)})
-			.attr("transform",function(d,i){return "translate("+(i*40+15)+",50)"})
+			.attr("transform",function(d,i){return "translate("+(i*50)+",50)"})
+
+		var newCommas = commas.enter().append('text')
+			.text(function(d,i){return ",";})
+			.attr('class','comma')
+			.attr("fill",function(a){return color(1)})
+			.attr("transform",function(d,i){return "translate("+((i*50)+15)+",50)"})
+
+		commas
+			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
 
 
 	
