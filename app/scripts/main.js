@@ -69,17 +69,17 @@ function illustrateArray(data,svg){
 
 		// debugger;
 		// ENTER
-		elements
+		var news = elements
 			.enter().append('g')
 			.attr('class','element')
 			.attr("transform",function(d,i){return "translate("+(i*40+15)+",50)"})
 
-		avatars = elements.append('text')
+		news.append('text')
 			.text(function(d,i){return d})
 			.attr('class','avatar')
 			.attr("fill",function(a){return color(0)})
 
-		commas = elements.append('text')
+		news.append('text')
 			.text(function(d,i){return ','})
 			.attr("fill",function(a){return color(1)})	
 			.attr("x",function(a){return 20})	
@@ -95,6 +95,7 @@ function illustrateArray(data,svg){
 			.attr("fill",function(a){return color(2)})
 		
 
+		// EXIT
 		// elements.exit().remove()
 
 
