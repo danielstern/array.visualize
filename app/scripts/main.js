@@ -29,7 +29,7 @@ function illustrateArray(data,svg){
 
 		// UPDATE
 		text
-			.text(function(d,i){return i})
+			.text(function(d,i){return d})
 
 		parens
 			.transition()
