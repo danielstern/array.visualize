@@ -1,4 +1,10 @@
 # advanced.native.javascript
 JOKES
 
-SO SO SO
+`map`
+
+`each`
+
+bind
+
+forEach
