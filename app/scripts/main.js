@@ -33,7 +33,7 @@ function illustrateArray(data,svg){
 		// UPDATE
 		text
 			.transition()
-			.delay(200)
+			.delay(50)
 			.attr('opacity',0)
 			.transition()
 			.text(function(d,i){return d})
