@@ -1,5 +1,5 @@
 <h2>
-  Array Visualize
+  <a href="http://danielstern.github.io/array.visualize/#/"></a>Array Visualize</a>
 </h2>
  <div class="social">
       <a href="https://twitter.com/danieljackstern" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @danieljackstern</a>
@@ -25,6 +25,7 @@
   It is possible to set a few variables in options. However you can also use CSS and it is compatible, and usually better.
 </p>
 
+<a href="http://danielstern.github.io/array.visualize/#/"></a><h2>Visit the project page</h2></a>
 
 <h3>
   How to Use
