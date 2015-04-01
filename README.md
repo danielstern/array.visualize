@@ -18,7 +18,9 @@
   It is possible to set a few variables in options. However you can also use CSS and it is compatible, and usually better.
 </p>
 
-<a href="http://danielstern.github.io/array.visualize/#/"><h2>Visit the project page</h2></a>
+<h2>
+<a href="http://danielstern.github.io/array.visualize/#/">Visit the project page</a>
+</h2>
 
 <h3>
   How to Use
