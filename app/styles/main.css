@@ -13,6 +13,10 @@ svg {
 	  font-size: 22px;
 }
 
+#_filter svg{
+	font-size:36px;
+}
+
 .comma {fill:green;}
 .text {fill:blue;}
 .parens {fill:red;}

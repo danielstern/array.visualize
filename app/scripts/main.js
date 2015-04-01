@@ -1,7 +1,7 @@
 // basic demo
 
 var data = ['stark','lannister','targeryen']
-var svg = d3.select("#_filter")
+var svg = d3.select("#_first")
 	.append('svg')
 	.attr('height',100)
 	.attr('width',900);

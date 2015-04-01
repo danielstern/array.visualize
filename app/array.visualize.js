@@ -31,7 +31,7 @@ function illustrateArray(data,svg,options){
 		commaWidth = commas[0][0]. getComputedTextLength ();
 		parensWidth = parens[0][0]. getComputedTextLength ();
 
-		height = text[0][0].getBBox().height;
+		height = parens[0][0].getBBox().height;
 
 		// debugger;
 
@@ -83,6 +83,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
+				if (data.length===0) x = parensWidth;
 				return "translate("+ (i===0?0:x)+",0)"
 			})
 
@@ -117,6 +118,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
+				if (data.length===0) x = parensWidth;
 				return "translate("+ (i===0?0:x)+",0)"
 			})
 			.text(function(d,i){return d})
