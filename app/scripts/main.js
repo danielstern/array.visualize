@@ -137,7 +137,8 @@ function illustrateArray(data,svg,options){
 		text.exit()
 			.attr("y",0)
 			.transition()
-			.attr("y",-50)
+			.attr("y",-75)
+			.transition()
 			.attr("opacity",0)
 			.remove();
 
@@ -151,8 +152,8 @@ function illustrateArray(data,svg,options){
 	return {
 		container:container,
 		update:update,
-		push:function(a){
-			data.push(a);
+		push:function(a,index){
+			data.splice(index||data.length,0,a);
 			update(data);
 		},
 		splice:function(index){
@@ -172,7 +173,7 @@ var a = illustrateArray(data,svg,{fontsize:45});
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
 setTimeout(a.push,1500,'purple');
-setTimeout(a.push,3000,'orange');
+setTimeout(a.push,3000,'orange',2);
 setTimeout(a.splice,4000,1);
 // setTimeout(function(){a.update(['a','b','c','d','e','f'])},400);
 // setTimeout(function(){a.update(['MM','h','i'])},3000);
