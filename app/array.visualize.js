@@ -152,13 +152,12 @@ function illustrateArray(data,svg,options){
 		},
 		highlight:function(index){
 			index = index || 0;
-			var padding = 0;
-			var rect = container.append("rect")
-			    .attr("rx", 6)
-			    .attr("ry", 6)
-			    .attr("height", height)
-			    .attr('opacity',0)
 
+			function calculate(){
+				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
+				targetY = -height*0.75;
+		    	targetWidth = dataWidths[index];
+			}
 
 			var targetX = 0;
 			var targetY = 0;
@@ -166,12 +165,20 @@ function illustrateArray(data,svg,options){
 			var targetOpacity = 0.35;
 			var targetColor = 'red';
 
+			calculate();
+			
+			var rect = container.append("rect")
+			    .attr("rx", 6)
+			    .attr("ry", 6)
+			    .attr("height", height)
+			    .attr('opacity',0)
+			    .attr("transform","translate("+(targetX)+","+targetY+")")
+
+
 			updateAll();
 			
 			function updateAll(){
-				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
-				targetY = -height*0.75;
-		    	targetWidth = dataWidths[index] + padding * 2;
+				calculate();
 
 				rect
 			    	.transition()
