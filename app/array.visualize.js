@@ -170,12 +170,13 @@ function illustrateArray(data,svg,options){
 			
 			function updateAll(){
 				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
+				targetY = -height*0.75;
 		    	targetWidth = dataWidths[index] + padding * 2;
 
 				rect
 			    	.transition()
 			    	.attr('opacity',targetOpacity)	
-			    	.attr("transform","translate("+(targetX-padding)+",0)")
+			    	.attr("transform","translate("+(targetX)+","+targetY+")")
 				    .attr("width", targetWidth)
 				    .style('fill',targetColor)
 			}
