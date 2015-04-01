@@ -11,6 +11,7 @@ function illustrateArray(data,svg,options){
 	var dataWidths;
 	var commaWidth;
 	var parensWidth;
+	var height;
 
 	function computeWidths(data) {
 		var text = container.selectAll('text._text')
@@ -29,6 +30,10 @@ function illustrateArray(data,svg,options){
 
 		commaWidth = commas[0][0]. getComputedTextLength ();
 		parensWidth = parens[0][0]. getComputedTextLength ();
+
+		height = text[0][0].getBBox().height;
+
+		// debugger;
 
 		text.remove();
 		commas.remove();
@@ -151,7 +156,7 @@ function illustrateArray(data,svg,options){
 			var rect = container.append("rect")
 			    .attr("rx", 6)
 			    .attr("ry", 6)
-			    .attr("height", 30)
+			    .attr("height", height)
 			    .attr('opacity',0)
 
 

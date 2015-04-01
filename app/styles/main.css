@@ -12,3 +12,7 @@ h4 pre {
 svg {
 	  font-size: 22px;
 }
+
+.comma {fill:green;}
+.text {fill:blue;}
+.parens {fill:red;}
