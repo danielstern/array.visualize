@@ -3,7 +3,17 @@ var filter = function f(n){
 	return n%2===0;
 }
 
-function illustrateArray(data,svg){
+function illustrateArray(data,svg,options){
+
+	// todo
+	// - highlight index
+	// - splice (push),unshift
+	// - pull
+	// - map (replace)
+	// widths/ styles
+
+	options = options || {};
+	var fontsize = options.fontsize || 14;
 	
 	var color = d3.scale.category20b();
 	
@@ -19,7 +29,6 @@ function illustrateArray(data,svg){
 	function update(data) {
 
 		// DATA JOIN
-
 		var text = container.selectAll('text.avatar')
 			.data(data);
 
@@ -54,24 +63,28 @@ function illustrateArray(data,svg){
 			.attr('opacity',0)
 			.transition()
 			.attr('opacity',1)
+			.style('font-size',fontsize);
 
 		var newCommas = commas.enter().append('text')
 			.text(function(d,i){return ",";})
 			.attr('class','comma')
 			.attr("fill",function(a){return color(1)})
 			.attr("transform",function(d,i){return "translate("+((i*40)+30)+",50)"})
-
-		commas
-			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
+			.style('font-size',fontsize);
 
 		parens
 			.enter().append('g')
 			.attr('class','parens')
 			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
+			.style('font-size',fontsize)
 
 		parens.append('text')
 			.text(function(d,i){return d})
 			.attr("fill",function(a){return color(2)})
+
+		// ENTER AND UPDATE
+		commas
+			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
 
 		//EXIT
 		text.exit().remove();
@@ -92,7 +105,7 @@ var svg = d3.select("#_filter")
 	.append('svg')
 	.attr('height',600)
 	.attr('width',400);
-var a = illustrateArray(data,svg);
+var a = illustrateArray(data,svg,{fontsize:45});
 // var b =  illustrateArray(data.filter(filter),svg);
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
