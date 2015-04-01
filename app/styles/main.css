@@ -1,5 +1,9 @@
 html {
-  font-family: lucida console;
+  font-family: Monaco, Monospace;
   fill: #111;
   /*font-size: 22px;*/
+}
+
+h4 pre {
+  font-size: 18px;
 }
