@@ -90,16 +90,15 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
 
 
-
-
 		// ENTER
 		var newText = text.enter().append('text')
 			.text(function(d,i){return d})
 			.attr('class','avatar')
 			.attr("fill",function(a){return color(0)})
 			.attr("transform",function(d,i){
-				var x = d3.sum(dataWidths.slice(0,i));
-				console.log("x?",x)
+				var x = d3.sum(dataWidths.slice(0,i))+parensWidth;
+				x+=i*commaWidth;
+				x+=parensWidth;
 				return "translate("+x+",50)"})
 			.attr('opacity',0)
 			.transition()
@@ -110,19 +109,23 @@ function illustrateArray(data,svg,options){
 			.text(function(d,i){return ",";})
 			.attr('class','comma')
 			.attr("fill",function(a){return color(1)})
-			.attr("transform",function(d,i){return "translate("+((i*40)+parensWidth+15)+",50)"})
+			.attr("transform",function(d,i){
+				var x = d3.sum(dataWidths.slice(0,i+1))+parensWidth;
+				x+=i*commaWidth;
+				x+=parensWidth;
+				return "translate("+x+",50)"})
 			.style('font-size',fontsize);
 
 		console.log("Data widths?",dataWidths);
 
 
-		parens
-			.enter().append('text')
-			.attr('class','parens')
-			.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
-			.style('font-size',fontsize)
-			.text(function(d,i){return d})
-			.attr("fill",function(a){return color(2)})
+		// parens
+		// 	.enter().append('text')
+		// 	.attr('class','parens')
+		// 	.attr("transform",function(d,i){return "translate("+ (i===0?(0*40):(data.length*40))+",50)"})
+		// 	.style('font-size',fontsize)
+		// 	.text(function(d,i){return d})
+		// 	.attr("fill",function(a){return color(2)})
 
 		// ENTER AND UPDATE
 		commas
