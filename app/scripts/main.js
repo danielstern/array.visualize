@@ -41,10 +41,10 @@ function illustrateArray(data,svg,options){
 
 		// UPDATE
 		text
-			.transition()
-			.delay(50)
+			// .transition()
+			// .delay(50)
 			.attr('opacity',0)
-			.transition()
+			// .transition()
 			.text(function(d,i){return d})
 			.attr('opacity',1)
 
@@ -71,6 +71,14 @@ function illustrateArray(data,svg,options){
 			.attr("fill",function(a){return color(1)})
 			.attr("transform",function(d,i){return "translate("+((i*40)+30)+",50)"})
 			.style('font-size',fontsize);
+
+		// setTimeout(function(a){
+			var dataWidths = data.map(function(a,i){
+				return container.selectAll('text.avatar')[0][i]. getComputedTextLength ();
+			})	
+			console.log("Data widths?",dataWidths);
+		// },100)
+
 
 		parens
 			.enter().append('g')
@@ -109,5 +117,5 @@ var a = illustrateArray(data,svg,{fontsize:45});
 // var b =  illustrateArray(data.filter(filter),svg);
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
-setTimeout(function(){a.update(['a','b','c','d','e','f'])},1500);
-setTimeout(function(){a.update(['g','h','i'])},3000);
+setTimeout(function(){a.update(['aaa','b','c','d','e','ff'])},1500);
+setTimeout(function(){a.update(['MM','h','i'])},3000);
