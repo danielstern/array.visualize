@@ -7,8 +7,8 @@ function illustrateArray(data,svg,options){
 
 	// todo
 	// - highlight index
-	// - splice (push),unshift
 	// - map (replace)
+	// - styles
 
 	options = options || {};
 	var fontsize = options.fontsize || 14;
@@ -159,6 +159,47 @@ function illustrateArray(data,svg,options){
 		splice:function(index){
 			data.splice(index,1);
 			update(data);
+		},
+		highlight:function(index){
+			index = index || 0;
+			var padding = 3;
+			var rect = container.append("rect")
+		    .attr("rx", 6)
+		    .attr("ry", 6)
+		    .attr("transform",function(){
+		    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
+					x+=index*commaWidth;
+					return "translate("+(x-padding)+",0)"
+		    })
+		    .attr("y", -fontsize+padding)
+		    .attr("width", dataWidths[index] + padding * 2)
+		    .attr("height", fontsize + padding * 2)
+		    .attr('opacity',0.5)
+		    .style("fill", d3.scale.category20c());
+
+		    function goto(i){
+		    	index = i;
+			    rect
+			    	.transition()
+				    .attr("transform",function(){
+				    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
+							x+=index*commaWidth;
+							return "translate("+(x-padding)+",0)"
+				    })
+				    .attr("width", dataWidths[index] + padding * 2)
+		    }
+
+		    function color(fill){
+			    rect
+			    	.transition()
+				    .style('fill',fill)
+		    }
+
+		    return {
+		    	goto:goto,
+		    	color:color
+		    }
+
 		}
 	};
 }
@@ -172,8 +213,20 @@ var a = illustrateArray(data,svg,{fontsize:45});
 // var b =  illustrateArray(data.filter(filter),svg);
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
-setTimeout(a.push,1500,'purple');
-setTimeout(a.push,3000,'orange',2);
-setTimeout(a.splice,4000,1);
-// setTimeout(function(){a.update(['a','b','c','d','e','f'])},400);
+// setTimeout(a.push,1500,'purple');
+setTimeout(function(){
+	var h = a.highlight();
+	setTimeout(function(){
+		h.goto(2);
+		setTimeout(function(){
+			h.color('red');
+		},500);
+	},500);
+},500,'purple');
+
+
+// setTimeout(a.push,3000,'orange',2);
+// setTimeout(a.splice,4000,1);
+// setTimeout(function(){a.update(['red','pink','orange','purple'])},6000);
+// setTimeout(function(){a.update(['red','purple','orange','pink'])},8500);
 // setTimeout(function(){a.update(['MM','h','i'])},3000);
