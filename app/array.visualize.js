@@ -56,7 +56,7 @@ function illustrateArray(data,svg,options){
 			.data(data,function(a){return a});
 
 		var commas = container.selectAll('text.comma')
-			.data(data);
+			.data(data.slice(0,data.length-1));
 
 		var parens = container.selectAll('text.parens')
 			.data(['[',']'])
