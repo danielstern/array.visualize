@@ -8,9 +8,7 @@ function illustrateArray(data,svg,options){
 	// todo
 	// - highlight index
 	// - splice (push),unshift
-	// - pull
 	// - map (replace)
-	// styles
 
 	options = options || {};
 	var fontsize = options.fontsize || 14;
@@ -18,7 +16,7 @@ function illustrateArray(data,svg,options){
 	var color = d3.scale.category20b();
 	
 	var container = svg.append('g')
-		.attr("transform",function(d,i){return "translate(0,50)"})
+		.attr("transform",function(d,i){return "translate(0,200)"})
 
 	var dataWidths;
 	var commaWidth;
@@ -55,11 +53,10 @@ function illustrateArray(data,svg,options){
 	function update(data) {
 
 		computeWidths(data);
-		console.log("Computed widths...",data,dataWidths)
 
 		// DATA JOIN
 		var text = container.selectAll('text.avatar')
-			.data(data);
+			.data(data,function(a){return a});
 
 		var commas = container.selectAll('text.comma')
 			.data(data);
@@ -70,29 +67,29 @@ function illustrateArray(data,svg,options){
 		// UPDATE
 		text
 			.transition()
-			.delay(50)
-			.attr('opacity',0)
-			.transition()
 			.text(function(d,i){return d})
-			.attr('opacity',1)
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i))+parensWidth;
 				x+=i*commaWidth;
-				return "translate("+x+",50)"
+				return "translate("+x+",0)"
 			})
+			.attr("fill",function(a){return color(3)})
 
 		commas
+			.transition()
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i+1))+parensWidth;
 				x+=i*commaWidth;
-				return "translate("+x+",50)"})
+				return "translate("+x+",0)"
+			})
 
 
 		parens
+			.transition()
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
-				return "translate("+ (i===0?0:x)+",50)"
+				return "translate("+ (i===0?0:x)+",0)"
 			})
 
 
@@ -104,7 +101,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i))+parensWidth;
 				x+=i*commaWidth;
-				return "translate("+x+",50)"})
+				return "translate("+x+",0)"})
 			.attr('opacity',0)
 			.transition()
 			.attr('opacity',1)
@@ -117,7 +114,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i+1))+parensWidth;
 				x+=i*commaWidth;
-				return "translate("+x+",50)"})
+				return "translate("+x+",0)"})
 			.style('font-size',fontsize);
 
 		parens
@@ -126,7 +123,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
-				return "translate("+ (i===0?0:x)+",50)"
+				return "translate("+ (i===0?0:x)+",0)"
 			})
 			.style('font-size',fontsize)
 			.text(function(d,i){return d})
@@ -137,8 +134,15 @@ function illustrateArray(data,svg,options){
 			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
 
 		//EXIT
-		text.exit().remove();
-		commas.exit().remove();
+		text.exit()
+			.attr("y",0)
+			.transition()
+			.attr("y",-50)
+			.attr("opacity",0)
+			.remove();
+
+		commas.exit()
+			.remove();
 	
 	}	
 
@@ -146,18 +150,29 @@ function illustrateArray(data,svg,options){
 
 	return {
 		container:container,
-		update:update
+		update:update,
+		push:function(a){
+			data.push(a);
+			update(data);
+		},
+		splice:function(index){
+			data.splice(index,1);
+			update(data);
+		}
 	};
 }
 
-var data = [1,21,'abc'];
+var data = ['red','blue','green'];
 var svg = d3.select("#_filter")
 	.append('svg')
 	.attr('height',600)
-	.attr('width',400);
+	.attr('width',900);
 var a = illustrateArray(data,svg,{fontsize:45});
 // var b =  illustrateArray(data.filter(filter),svg);
 // b.container.attr("transform",function(d,i){return "translate(65,110)"})
 
-setTimeout(function(){a.update(['a','b','c','d','e','f'])},1500);
-setTimeout(function(){a.update(['MM','h','i'])},3000);
+setTimeout(a.push,1500,'purple');
+setTimeout(a.push,3000,'orange');
+setTimeout(a.splice,4000,1);
+// setTimeout(function(){a.update(['a','b','c','d','e','f'])},400);
+// setTimeout(function(){a.update(['MM','h','i'])},3000);
