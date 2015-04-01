@@ -6,7 +6,6 @@ var filter = function f(n){
 function illustrateArray(data,svg,options){
 
 	// todo
-	// - highlight index
 	// - map (replace)
 	// - styles
 
@@ -156,26 +155,30 @@ function illustrateArray(data,svg,options){
 			data.splice(index||data.length,0,a);
 			update(data);
 		},
-		splice:function(index){
-			data.splice(index,1);
+		splice:function(index,value){
+			value ? data.splice(index,1,value) : data.splice(index,1);
 			update(data);
 		},
 		highlight:function(index){
 			index = index || 0;
 			var padding = 3;
 			var rect = container.append("rect")
-		    .attr("rx", 6)
-		    .attr("ry", 6)
-		    .attr("transform",function(){
-		    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
-					x+=index*commaWidth;
-					return "translate("+(x-padding)+",0)"
-		    })
-		    .attr("y", -fontsize+padding)
-		    .attr("width", dataWidths[index] + padding * 2)
-		    .attr("height", fontsize + padding * 2)
-		    .attr('opacity',0.5)
-		    .style("fill", d3.scale.category20c());
+			    .attr("rx", 6)
+			    .attr("ry", 6)
+			    .attr("transform",function(){
+			    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
+						x+=index*commaWidth;
+						return "translate("+(x-padding)+",0)"
+			    })
+			    .attr("y", -fontsize+padding)
+			    .attr("width", dataWidths[index] + padding * 2)
+			    .attr("height", fontsize + padding * 2)
+			    .attr('opacity',0)
+			    .style("fill", 'blue')
+
+		    rect
+		    	.transition()
+		    	.attr('opacity',0.5)
 
 		    function goto(i){
 		    	index = i;
@@ -190,14 +193,20 @@ function illustrateArray(data,svg,options){
 		    }
 
 		    function color(fill){
-			    rect
-			    	.transition()
+			    rect.transition()
 				    .style('fill',fill)
+		    }
+
+		    function destroy(){
+		    	rect.transition()
+			    	.attr("opacity",0)
+			    	.remove()
 		    }
 
 		    return {
 		    	goto:goto,
-		    	color:color
+		    	color:color,
+		    	destroy:destroy
 		    }
 
 		}
@@ -220,6 +229,16 @@ setTimeout(function(){
 		h.goto(2);
 		setTimeout(function(){
 			h.color('red');
+			var j = a.highlight(1);
+			setTimeout(j.destroy,500);
+			setTimeout(function(){
+				a.splice(2);
+				h.goto(1);
+				setTimeout(function(){
+					a.splice(1,'ochre');
+					h.goto(1);
+				},1000)
+			},1000)
 		},500);
 	},500);
 },500,'purple');
