@@ -1,5 +1,6 @@
 # advanced.native.javascript
-JOKES
+
+filter
 
 `map`
 
@@ -8,3 +9,7 @@ JOKES
 bind
 
 forEach
+
+reduce
+
+every
