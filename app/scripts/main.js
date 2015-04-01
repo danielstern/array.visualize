@@ -98,12 +98,19 @@ var a = illustrateArray(data,svg,{fontsize:45,speed:250});
 	var a = illustrateArray(data,svg,{fontsize:23,speed:250});
 	setTimeout(function(){
 		var  n = a.highlight(2);
+		n.color('green')
 		setTimeout(function(){
-			n.color('green')
+			n.goto(1);
+			n.color('#dddddd')
 			setTimeout(function(){
-				svg.remove();
-				goto();
-			},3500)
+				n.goto(0);
+				n.color('#333333')
+				
+				setTimeout(function(){
+					svg.remove();
+					goto();
+				},3500)
+			},2000)
 		},2000)
 	},2000);
 })();

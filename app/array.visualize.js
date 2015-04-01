@@ -171,36 +171,42 @@ function illustrateArray(data,svg,options){
 			var rect = container.append("rect")
 			    .attr("rx", 6)
 			    .attr("ry", 6)
-			    .attr("transform",function(){
-			    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
-						x+=index*commaWidth;
-						return "translate("+(x-padding)+",0)"
-			    })
 			    .attr("y", -fontsize+padding)
-			    .attr("width", dataWidths[index] + padding * 2)
 			    .attr("height", fontsize + padding * 2)
 			    .attr('opacity',0)
-			    .style("fill", d3.scale.category20())
 
-		    rect
-		    	.transition()
-		    	.attr('opacity',0.35)
+
+			var targetX = 0;
+			var targetY = 0;
+			var targetWidth = 0;
+			var targetOpacity = 0.35;
+			var targetColor = 'red';
+
+			updateAll();
+			
+			function updateAll(){
+				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
+		    	targetWidth = dataWidths[index] + padding * 2;
+
+				rect
+			    	.transition()
+			    	.attr('opacity',targetOpacity)	
+			    	.attr("transform","translate("+(targetX-padding)+",0)")
+				    .attr("width", targetWidth)
+				    .style('fill',targetColor)
+			}
+
+		    
 
 		    function goto(i){
 		    	index = i;
-			    rect
-			    	.transition()
-				    .attr("transform",function(){
-				    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
-							x+=index*commaWidth;
-							return "translate("+(x-padding)+",0)"
-				    })
-				    .attr("width", dataWidths[index] + padding * 2)
+		    	updateAll();
+				    
 		    }
 
 		    function color(fill){
-			    rect.transition()
-				    .style('fill',fill)
+		    	targetColor = fill;
+		    	updateAll();				   
 		    }
 
 		    function destroy(){
