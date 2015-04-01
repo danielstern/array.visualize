@@ -1,0 +1,8 @@
+{
+  "name": "advanced-native-javascript",
+  "private": true,
+  "dependencies": {
+    "jquery": "~1.11.1",
+    "d3": "~3.5.5"
+  }
+}
