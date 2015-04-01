@@ -132,10 +132,6 @@ function illustrateArray(data,svg,options){
 			.text(function(d,i){return d})
 			.attr("fill",function(a){return color(2)})
 
-		// ENTER AND UPDATE
-		commas
-			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
-
 		//EXIT
 		text.exit()
 			.attr("y",0)
