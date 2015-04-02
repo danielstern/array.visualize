@@ -1,10 +1,9 @@
-(function filterDemo() {
-    console.log("filter!");
-    var data = [1, 6, 2, 8, 9, 5, 7, 4];
-    var filter = function(n) {
-        return n > 5
+(function mapDemo() {
+    var data = [2,7,5,8,4,1,9];
+    var map = function(n) {
+        return n*2;
     };
-    var svg = d3.select("#_filter")
+    var svg = d3.select("#_map")
         .append('svg')
         .attr('height', 300)
         .attr('width', 900);
@@ -41,18 +40,18 @@
 
 
     svg.append('text')
-        .text('filter')
+        .text('map')
         .attr('y', 75)
         .attr('class', 'sm')
 
     svg.append('text')
-        .text('array.filter(function(n){return (n>5)})')
+        .text('array.map(function(n){return (n*2)})')
         .attr('y', 105)
         .attr('x', 0)
         .attr('class', 'xsm')
 
     svg.append('text')
-        .text(' > 5')
+        .text(' * 2 =')
         .attr('y', 195)
         .attr('x', 90)
         .attr('class', 'sm')
@@ -65,13 +64,21 @@
         .style('text-align', 'right')
         .attr('opacity',1)
 
+    var operand = svg.append('text')
+        .text('x')
+        .attr('y', 195)
+        .attr('x', 170)
+        .attr('class', 'sm')
+        .style('text-align', 'right')
+        .attr('opacity',1)
+
     var rect = svg.append("rect")
         .attr("rx", 6)
         .attr("ry", 6)
         .attr("height", 40)
-        .attr("width", 90)
+        .attr("width", 42)
         .attr('opacity', 0)
-        .attr("transform", "translate(50,170)")
+        .attr("transform", "translate(160,170)")
 
     function flashRect(color) {
         rect
@@ -79,12 +86,23 @@
             .attr('opacity', 0.35)
             .style('fill', color)
             .transition()
-            .delay(700)
+            .delay(1600)
             .attr('opacity', 0)
     }
 
     function updateOperator(number) {
         operator
+        .transition()
+        .attr('opacity',0)
+        .transition()
+        .text(number||'n')
+        .attr('opacity',1)
+
+    }
+
+
+    function updateOperand(number) {
+        operand
         .transition()
         .attr('opacity',0)
         .transition()
@@ -100,31 +118,28 @@
         h.color('blue')
         h.goto(index);
         updateOperator(d);
+        updateOperand(' ');
 
         if (index > data.length - 1) {
             clearInterval(g);
             setTimeout(function() {
                 svg.remove();
-                filterDemo();
+                mapDemo();
             }, 3000);
             return;
         }
 
         setTimeout(function() {
-            if (filter(d)) {
-                h.color('green');
-                b.push(d);
-                flashRect('green');
-                bumpArrow();
-            } else {
-                h.color('red');
-                flashRect('red');
-            }
+            h.color('green');
+            b.push(map(d));
+            updateOperand(map(d));
+            flashRect('green');
+            bumpArrow();
 
             index++;
 
 
-        }, 900)
+        }, 1800)
 
-    }, 1800)
+    }, 3600)
 })();
