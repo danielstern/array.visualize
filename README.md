@@ -1,14 +1,7 @@
 <h2>
-  Array Visualize
+  <a href="http://danielstern.github.io/array.visualize/#/">Array Visualize</a>
 </h2>
- <div class="social">
-      <a href="https://twitter.com/danieljackstern" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @danieljackstern</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-      <a href="https://twitter.com/share" class="twitter-share-button" data-text="CSS Styles for Range Inputs! At last!" data-size="large" data-related="danieljackstern" data-hashtags="css">Tweet</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-     <iframe src="http://ghbtns.com/github-btn.html?user=danielstern&repo=array.visualize&type=watch&count=true&size=large"
-       allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
-    </div>
+
 <h3>
   A practical library
 </h3>
@@ -25,6 +18,9 @@
   It is possible to set a few variables in options. However you can also use CSS and it is compatible, and usually better.
 </p>
 
+<h2>
+<a href="http://danielstern.github.io/array.visualize/#/">Visit the project page</a>
+</h2>
 
 <h3>
   How to Use

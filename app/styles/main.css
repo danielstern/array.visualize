@@ -8,3 +8,25 @@ html {
 h4 pre {
   font-size: 18px;
 }
+
+svg {
+	  font-size: 22px;
+}
+
+.demo svg{
+	font-size:36px;
+}
+
+.demo svg .sm{
+	font-size:24px;
+}
+
+.demo svg .xsm{
+	font-size:18px;
+	font-style: italic;
+
+}
+
+.comma {fill:green;}
+.text {fill:blue;}
+.parens {fill:red;}

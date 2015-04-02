@@ -1,13 +1,6 @@
-
 function illustrateArray(data,svg,options){
 
-	// todo
-	// - demos
-	// docs
-	// images
-
 	options = options || {};
-	var fontsize = options.fontsize || 14;
 	var speed = options.speed || 500;
 	
 	var color = d3.scale.category20b();
@@ -18,21 +11,18 @@ function illustrateArray(data,svg,options){
 	var dataWidths;
 	var commaWidth;
 	var parensWidth;
+	var height;
 
 	function computeWidths(data) {
-		var text = container.selectAll('text._avatar')
+		var text = container.selectAll('text._text')
 			.data(data)
 			.enter()
 			.append('text')
 			.text(function(d,i){return d})
-			.style('font-size',fontsize);
 
 		var commas = container.append('text').text(',')
-			.style('font-size',fontsize);
 
-		var parens=container.append('text')
-			.style('font-size',fontsize)
-			.text("[")
+		var parens=container.append('text').text("[")
 
 		dataWidths = data.map(function(a,i){
 			return text[0][i]. getComputedTextLength ();
@@ -41,9 +31,14 @@ function illustrateArray(data,svg,options){
 		commaWidth = commas[0][0]. getComputedTextLength ();
 		parensWidth = parens[0][0]. getComputedTextLength ();
 
+		height = parens[0][0].getBBox().height;
+
+		// debugger;
+
 		text.remove();
 		commas.remove();
 		parens.remove();
+
 	}
 
 
@@ -52,11 +47,11 @@ function illustrateArray(data,svg,options){
 		computeWidths(data);
 
 		// DATA JOIN
-		var text = container.selectAll('text.avatar')
+		var text = container.selectAll('text.text')
 			.data(data,function(a){return a});
 
 		var commas = container.selectAll('text.comma')
-			.data(data);
+			.data(data.slice(0,data.length-1));
 
 		var parens = container.selectAll('text.parens')
 			.data(['[',']'])
@@ -71,7 +66,6 @@ function illustrateArray(data,svg,options){
 				x+=i*commaWidth;
 				return "translate("+x+",0)"
 			})
-			.attr("fill",function(a){return color(3)})
 
 		commas
 			.transition()
@@ -89,6 +83,7 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
+				if (data.length===0) x = parensWidth;
 				return "translate("+ (i===0?0:x)+",0)"
 			})
 
@@ -96,13 +91,11 @@ function illustrateArray(data,svg,options){
 		// ENTER
 		text.enter().append('text')
 			.text(function(d,i){return d})
-			.attr('class','avatar')
-			.attr("fill",function(a){return color(0)})
+			.attr('class','text')
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i))+parensWidth;
 				x+=i*commaWidth;
 				return "translate("+x+",0)"})
-			.style('font-size',fontsize)
 			.attr('opacity',0)
 			.attr('y',50)
 			.transition()
@@ -113,12 +106,11 @@ function illustrateArray(data,svg,options){
 		commas.enter().append('text')
 			.text(function(d,i){return ",";})
 			.attr('class','comma')
-			.attr("fill",function(a){return color(1)})
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths.slice(0,i+1))+parensWidth;
 				x+=i*commaWidth;
-				return "translate("+x+",0)"})
-			.style('font-size',fontsize);
+				return "translate("+x+",0)"
+			})
 
 		parens
 			.enter().append('text')
@@ -126,15 +118,10 @@ function illustrateArray(data,svg,options){
 			.attr("transform",function(d,i){
 				var x = d3.sum(dataWidths)+parensWidth;
 				x+=(data.length-1)*commaWidth;
+				if (data.length===0) x = parensWidth;
 				return "translate("+ (i===0?0:x)+",0)"
 			})
-			.style('font-size',fontsize)
 			.text(function(d,i){return d})
-			.attr("fill",function(a){return color(2)})
-
-		// ENTER AND UPDATE
-		commas
-			 .attr("opacity",function(a,i){return i==data.length-1 ? 0 : 1})	
 
 		//EXIT
 		text.exit()
@@ -167,40 +154,57 @@ function illustrateArray(data,svg,options){
 		},
 		highlight:function(index){
 			index = index || 0;
-			var padding = 3;
+
+
+			function calculate(){
+				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
+				targetY = -height*0.75;
+		    	targetWidth = dataWidths[index];
+		    	padding = height / 12;
+			}
+
+			var targetX = 0;
+			var targetY = 0;
+			var targetWidth = 0;
+			var targetOpacity = 0.35;
+			var targetColor = 'red';
+			var padding;
+
+			calculate();
+			
 			var rect = container.append("rect")
 			    .attr("rx", 6)
 			    .attr("ry", 6)
-			    .attr("transform",function(){
-			    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
-						x+=index*commaWidth;
-						return "translate("+(x-padding)+",0)"
-			    })
-			    .attr("y", -fontsize+padding)
-			    .attr("width", dataWidths[index] + padding * 2)
-			    .attr("height", fontsize + padding * 2)
+			    .attr("height", height+padding*2)
 			    .attr('opacity',0)
-			    .style("fill", d3.scale.category20())
+			    .attr("transform","translate("+(targetX-padding)+","+(targetY-padding)+")")
 
-		    rect
-		    	.transition()
-		    	.attr('opacity',0.35)
+
+			updateAll();
+			
+			function updateAll(){
+				calculate();
+
+				rect
+			    	.transition()
+			    	.attr('opacity',targetOpacity)	
+			    	.attr("transform","translate("+(targetX-padding)+","+(targetY-padding)+")")
+				    .attr("width", targetWidth+padding*2)
+				    .style('fill',targetColor)
+			}
+
+		    
 
 		    function goto(i){
 		    	index = i;
-			    rect
-			    	.transition()
-				    .attr("transform",function(){
-				    	var x = d3.sum(dataWidths.slice(0,index))+parensWidth;
-							x+=index*commaWidth;
-							return "translate("+(x-padding)+",0)"
-				    })
-				    .attr("width", dataWidths[index] + padding * 2)
+		    	if (index > data.length - 1) index = data.length - 1;
+		    	updateAll();
+				    
 		    }
 
 		    function color(fill){
-			    rect.transition()
-				    .style('fill',fill)
+		    	targetColor = fill;
+		    	updateAll();				   
 		    }
 
 		    function destroy(){
