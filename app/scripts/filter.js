@@ -35,9 +35,14 @@
 
 
 	svg.append('text')
-		.text('array.filter(function evens(n){return n % 2 === 0})')
+		.text('filter')
 		.attr('y',50)
 		.attr('class','sm')
+
+	svg.append('text')
+		.text('[0,1,2,3,4...].filter(function(n){return n % 2 === 0})')
+		.attr('y',90)
+		.attr('class','xsm')
 
 
 	var g = setInterval(function checkElement(){

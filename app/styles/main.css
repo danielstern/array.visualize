@@ -21,6 +21,12 @@ svg {
 	font-size:24px;
 }
 
+#_filter svg .xsm{
+	font-size:16px;
+	font-style: italic;
+
+}
+
 .comma {fill:green;}
 .text {fill:blue;}
 .parens {fill:red;}
