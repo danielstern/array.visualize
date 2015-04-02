@@ -15,10 +15,17 @@
 
 	var index = 0;
 	var h = a.highlight(index);
-	h.color('blue')
+	h.color('blue');
+
+	// define arrow markers for graph links
+	svg
+	  .append('svg:path')
+	    .attr('d', 'M0,-5L10,0L0,5')
+	    .attr('fill', '#000');
+
 
 	svg.append('text')
-		.text('array.filter(function evens(n){n % 2 === 0})')
+		.text('array.filter(function evens(n){return n % 2 === 0})')
 		.attr('y',50)
 		.attr('class','sm')
 

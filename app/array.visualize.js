@@ -159,6 +159,7 @@ function illustrateArray(data,svg,options){
 				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
 				targetY = -height*0.75;
 		    	targetWidth = dataWidths[index];
+		    	padding = height / 12;
 			}
 
 			var targetX = 0;
@@ -166,15 +167,16 @@ function illustrateArray(data,svg,options){
 			var targetWidth = 0;
 			var targetOpacity = 0.35;
 			var targetColor = 'red';
+			var padding;
 
 			calculate();
 			
 			var rect = container.append("rect")
 			    .attr("rx", 6)
 			    .attr("ry", 6)
-			    .attr("height", height)
+			    .attr("height", height+padding*2)
 			    .attr('opacity',0)
-			    .attr("transform","translate("+(targetX)+","+targetY+")")
+			    .attr("transform","translate("+(targetX-padding)+","+(targetY-padding)+")")
 
 
 			updateAll();
@@ -185,8 +187,8 @@ function illustrateArray(data,svg,options){
 				rect
 			    	.transition()
 			    	.attr('opacity',targetOpacity)	
-			    	.attr("transform","translate("+(targetX)+","+targetY+")")
-				    .attr("width", targetWidth)
+			    	.attr("transform","translate("+(targetX-padding)+","+(targetY-padding)+")")
+				    .attr("width", targetWidth+padding*2)
 				    .style('fill',targetColor)
 			}
 
