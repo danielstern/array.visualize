@@ -155,6 +155,7 @@ function illustrateArray(data,svg,options){
 		highlight:function(index){
 			index = index || 0;
 
+
 			function calculate(){
 				targetX = d3.sum(dataWidths.slice(0,index))+parensWidth+index*commaWidth;
 				targetY = -height*0.75;
@@ -196,6 +197,7 @@ function illustrateArray(data,svg,options){
 
 		    function goto(i){
 		    	index = i;
+		    	if (index > data.length - 1) index = data.length - 1;
 		    	updateAll();
 				    
 		    }

@@ -10,7 +10,7 @@
 	var a = illustrateArray(data,svg,{speed:250});
 	var filteredData = [];
 	var b = illustrateArray(filteredData,svg,{speed:250})
-	a.container.attr('transform',"translate(0,170)");
+	a.container.attr('transform',"translate(0,150)");
 	b.container.attr('transform',"translate(0,250)");
 
 	var index = 0;
@@ -18,10 +18,20 @@
 	h.color('blue');
 
 	// define arrow markers for graph links
-	svg
-	  .append('svg:path')
+	var arrow = svg
+	    .append('svg:path')
 	    .attr('d', 'M0,-5L10,0L0,5')
-	    .attr('fill', '#000');
+	    .attr('fill', '#000')
+	    .attr('transform','translate(30,180),rotate(90),scale(2)')
+
+	function bumpArrow(){
+		arrow
+		.transition()
+		.attr('transform','translate(30,190),rotate(90),scale(2)')
+		.transition()
+		.attr('transform','translate(30,180),rotate(90),scale(2)')
+
+	}
 
 
 	svg.append('text')
@@ -40,6 +50,7 @@
 			if (filter(d)) {
 				h.color('green');
 				b.push(d);
+				bumpArrow();
 			} else {
 				h.color('red');
 			}
