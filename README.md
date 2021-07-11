@@ -2,6 +2,11 @@
   <a href="http://danielstern.github.io/array.visualize/#/">Array Visualize</a>
 </h2>
 
+# Quick Start Instructions
+1. Run `npm install && npm run postinstall`
+2. Run `npm start`
+
+
 <h3>
   A practical library
 </h3>
