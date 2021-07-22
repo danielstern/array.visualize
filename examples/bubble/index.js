@@ -1,4 +1,12 @@
-var data = [0,3,5,2,0,8,1,6];
+// var data = [0,3,5,2,0,8,1,6];
+
+var data = [];
+for (let i = 0; i < 12; i++) {
+
+    data.push(~~(Math.random() * 51))
+
+};
+
 var a = illustrateArray("#_push",data,{fontsize:23,speed:250});
 
 function sleep(ms) {
@@ -7,6 +15,7 @@ function sleep(ms) {
 
 let v = 0;
 const speed = 300;
+// let g = true;
 
 async function compareValues() {
 
@@ -21,6 +30,8 @@ async function compareValues() {
     await sleep(speed);
 
     if (v1 > v2) {
+
+        // g = false;
 
         a.splice(v, v2);
         a.splice(v + 1, v1);
@@ -40,6 +51,8 @@ async function compareValues() {
         v++;
 
     } else {
+
+        // if (!g)
 
         v = 0;
 

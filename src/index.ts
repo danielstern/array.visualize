@@ -128,9 +128,9 @@ function illustrateArray(selector, data, options : any = {}){
 			const div = document.querySelector(selector);
 			const width = div.offsetWidth;
 
-			container
+			// container
 				// .transition()
-				.attr("transform",()=>`translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`);
+				// .attr("transform",()=>`translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`);
 
 		}
 	
