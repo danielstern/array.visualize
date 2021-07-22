@@ -22,7 +22,7 @@ module.exports = {
   },
   devtool: "eval-source-map",
   devServer: {
-    contentBase: [path.join(__dirname, 'examples', 'basic'), path.join(__dirname, 'dist'),  path.join(__dirname, 'node_modules')],
+    contentBase: [path.join(__dirname, 'examples'), path.join(__dirname, 'dist'),  path.join(__dirname, 'node_modules')],
     port: 7777,
   },
 };

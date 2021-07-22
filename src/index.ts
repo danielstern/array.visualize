@@ -95,8 +95,10 @@ function illustrateArray(selector, data, options : any = {}){
 	
 	const speed = options.speed || 500;
 	const adjust = options.adjust || {x: 0, y:50};
+	const center = options.center || true;
 	
 	const container = svg.append('g')
+		.attr("id","___n")
 		.attr("transform",()=>`translate(${adjust.x},${adjust.y})`);
 
 	let hs = [];
@@ -118,6 +120,18 @@ function illustrateArray(selector, data, options : any = {}){
 		for (let h of hs) {
 
 			h.update(data);
+
+		}
+
+		if (center) {
+
+			const div = document.querySelector(selector);
+			const width = div.offsetWidth;
+
+			container
+				// .transition()
+				.attr("transform",()=>`translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`);
+
 		}
 	
 	}	
@@ -130,7 +144,7 @@ function illustrateArray(selector, data, options : any = {}){
 
 			shouldUpdate = false;
 			update(data);
-			
+
 		}
 	});
 
@@ -139,17 +153,17 @@ function illustrateArray(selector, data, options : any = {}){
 	return {
 		container,
 		update,
-		push(a : string, index : number) {
+		push(a : string, index : number = data.length) {
 
-			data.splice(index||data.length,0,a);
+			// y tho
+			data.splice(index,0,a);
 			shouldUpdate = true;
-			// update(data);
 
 		},
-		// not really too sure about this interface...
-		splice(index : number,value : string){
+		// used to remove data...
+		splice( index : number, value : string ){
 
-			value ? data.splice(index,1,value) : data.splice(index,1);
+			value !== undefined ? data.splice(index,1,value) : data.splice(index,1);
 			update(data);
 
 		},

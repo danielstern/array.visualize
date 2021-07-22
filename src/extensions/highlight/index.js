@@ -60,7 +60,8 @@ export function Highlight (container, data, index = 0) {
 
     function color(fill){
         targetColor = fill;
-        redraw(data);				   
+        redraw(data);	
+        return z;			   
     }
 
     function destroy(){
@@ -69,13 +70,15 @@ export function Highlight (container, data, index = 0) {
             .remove()
     }
 
-    return {
+    let z = {
         goto,
         color,
         destroy,
         update,
         updateAll: redraw
-    }
+    };
+
+    return z;
 
 
 }

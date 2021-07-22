@@ -1,5 +1,5 @@
 (function drawPush(){
-    var data = ['stark','jon'];
+    var data = ['rickon','jon'];
     var a = illustrateArray("#_push",data,{fontsize:23,speed:250});
 
     setTimeout(()=>{
@@ -8,14 +8,27 @@
 
         setTimeout(()=>{
 
-            a.push("baratheon");
-            a.push("jon");
-            z.goto(3);
+            a.push("stannis");
+            a.push("eddard");
+            z.goto(1);
             
 
             setTimeout(()=>{
 
-                a.push("tyrell",2);
+                a.push("mace",2);
+
+                setTimeout(()=>{
+
+                    a.splice(3);
+
+                    setTimeout(()=>{
+
+                        z.goto(1);
+        
+                    }, 1000)
+    
+    
+                }, 1000)
 
             }, 250)
 

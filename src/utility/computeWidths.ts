@@ -4,6 +4,7 @@ export interface SizeComputation {
     parensWidth: number;
     height: number;
     dataWidths: number[];
+	totalWidth: number;
 }
 /** 
  * Returns the width and height of text and decorations
@@ -29,6 +30,9 @@ export interface SizeComputation {
 	const commaWidth = commas.nodes()[0].getComputedTextLength ();
 	const parensWidth = parens.nodes()[0].getComputedTextLength ();
 	const height = parens.nodes()[0].getBBox().height;
+	const totalWidth =
+		commas.nodes().reduce((a,b) => a + b.getComputedTextLength(), 0)
+		+ text.nodes().reduce((a,b) => a + b.getComputedTextLength(), 0)
 
 	text.remove();
 	commas.remove();
@@ -38,6 +42,7 @@ export interface SizeComputation {
 		dataWidths,
 		commaWidth,
 		parensWidth,
+		totalWidth,
 		height
 	}
  }
