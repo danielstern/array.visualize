@@ -86,7 +86,12 @@ function updateElements(text, commas, parens, speed : number, adjust, computed :
 
 }
 
-function illustrateArray(data, svg, options : any = {}){
+function illustrateArray(selector, data, options : any = {}){
+
+	var svg = d3.select(selector)
+		.append('svg')
+		.attr('height',100)
+		.attr('width',900);
 	
 	const speed = options.speed || 500;
 	const adjust = options.adjust || {x: 0, y:50};
@@ -109,13 +114,27 @@ function illustrateArray(data, svg, options : any = {}){
 			.data(['[',']'])
 
 	    updateElements(text, commas, parens, options.speed, options.adjust, computed, data);
-		// hs.forEach(h => h.updateAll());
+
+		for (let h of hs) {
+
+			h.update(data);
+		}
 	
 	}	
 
-	update(data);
 
-	
+	let shouldUpdate = true;
+
+	setInterval(()=>{
+		if (shouldUpdate) {
+
+			shouldUpdate = false;
+			update(data);
+			
+		}
+	});
+
+
 
 	return {
 		container,
@@ -123,7 +142,8 @@ function illustrateArray(data, svg, options : any = {}){
 		push(a : string, index : number) {
 
 			data.splice(index||data.length,0,a);
-			update(data);
+			shouldUpdate = true;
+			// update(data);
 
 		},
 		// not really too sure about this interface...

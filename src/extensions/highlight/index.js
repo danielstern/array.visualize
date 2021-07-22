@@ -1,10 +1,11 @@
 import { computeWidths } from '../../utility/computeWidths';
+import * as d3 from 'd3';
 
 export function Highlight (container, data, index = 0) {
 
-    function updateAll(){
+    function redraw(data){
 
-        const { targetX, targetY, targetWidth , padding} = calculateHighlightProperties();
+        const { targetX, targetY, targetWidth , padding} = calculateHighlightProperties(data);
 
         rect
             .transition()
@@ -14,44 +15,52 @@ export function Highlight (container, data, index = 0) {
             .style('fill',targetColor)
     }
 
-    const {dataWidths, parensWidth, commaWidth, height } = computeWidths(data, container);
+    function calculateHighlightProperties(data){
 
-    function calculateHighlightProperties(){
+        const {dataWidths, parensWidth, commaWidth, height } = computeWidths(data, container);
         let targetX = d3.sum(dataWidths.slice(0,index)) + parensWidth + index * commaWidth;
         let targetY = -height*0.75;
         let targetWidth = dataWidths[index];
         let padding = height / 12;
 
         return { targetX, targetY, targetWidth, padding }
+
     }
 
+    const { height } = computeWidths(data, container);
+
+  
     var targetOpacity = 0.35;
     var targetColor = 'red';
 
-    const { targetX, targetY, padding} = calculateHighlightProperties();
+    const { targetX, targetY, padding } = calculateHighlightProperties(data);
 
-    var rect = container.append("rect")
+    let rect = container.append("rect")
         .attr("rx", 6)
         .attr("ry", 6)
         .attr("height", height+padding*2)
         .attr('opacity',0)
         .attr("transform","translate("+(targetX-padding)+","+(targetY-padding)+")")
 
-    updateAll();
+    redraw(data);
     
 
-    // fiendish...
     function goto(i){
 
         index = i;
         if (index > data.length - 1) index = data.length - 1;
-        updateAll();
+        redraw(data);
             
+    }
+
+    function update(_data) {
+        data = _data;
+        redraw(data);
     }
 
     function color(fill){
         targetColor = fill;
-        updateAll();				   
+        redraw(data);				   
     }
 
     function destroy(){
@@ -64,7 +73,8 @@ export function Highlight (container, data, index = 0) {
         goto,
         color,
         destroy,
-        updateAll
+        update,
+        updateAll: redraw
     }
 
 
