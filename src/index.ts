@@ -90,8 +90,8 @@ function illustrateArray(selector, data, options : any = {}){
 
 	var svg = d3.select(selector)
 		.append('svg')
-		.attr('height',100)
-		.attr('width',900);
+		.attr('height', '100px')
+		.attr('width', '100%');
 	
 	const speed = options.speed || 500;
 	const adjust = options.adjust || {x: 0, y:50};
@@ -124,14 +124,18 @@ function illustrateArray(selector, data, options : any = {}){
 		}
 
 		if (center) {
-
 			const div = document.querySelector(selector);
 			const width = div.offsetWidth;
 
-			// container
-				// .transition()
-				// .attr("transform",()=>`translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`);
+			container
+				.attr("transform", () => `translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`);
 
+
+			window.addEventListener('resize', () => {
+				const div = document.querySelector(selector)
+				const width = div.offsetWidth
+				container.attr("transform", () => `translate(${adjust.x + ((width - computed.totalWidth) / 2)},${adjust.y})`)
+			});
 		}
 	
 	}	

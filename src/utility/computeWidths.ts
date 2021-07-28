@@ -30,9 +30,8 @@ export interface SizeComputation {
 	const commaWidth = commas.nodes()[0].getComputedTextLength ();
 	const parensWidth = parens.nodes()[0].getComputedTextLength ();
 	const height = parens.nodes()[0].getBBox().height;
-	const totalWidth =
-		commas.nodes().reduce((a,b) => a + b.getComputedTextLength(), 0)
-		+ text.nodes().reduce((a,b) => a + b.getComputedTextLength(), 0)
+	const totalWidth = commaWidth * (data.length) + dataWidths.reduce((a, b) => a + b, 0) + parensWidth * 2
+
 
 	text.remove();
 	commas.remove();
